@@ -36,9 +36,12 @@ font = pygame.font.SysFont("Arial", 24)
 game_active = False
 paused = False
 
-# Carregar imagem de fundo para a tela inicial
-background_image = pygame.image.load("assets/1.png")
-background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))  # Redimensiona a imagem para caber na tela
+# Carregar imagens de fundo
+menu_background = pygame.image.load("assets/1.png")
+menu_background = pygame.transform.scale(menu_background, (WIDTH, HEIGHT))  # Redimensiona a imagem para caber na tela
+
+game_background = pygame.image.load("assets/2.png")
+game_background = pygame.transform.scale(game_background, (WIDTH, HEIGHT))  # Redimensiona a imagem para caber na tela
 
 # Função para desenhar texto na tela
 def draw_text(text, font, color, x, y):
@@ -47,7 +50,7 @@ def draw_text(text, font, color, x, y):
 
 # Função para mostrar a tela de início
 def show_menu():
-    screen.blit(background_image, (0, 0))  # Desenha a imagem de fundo
+    screen.blit(menu_background, (0, 0))  # Desenha a imagem de fundo
     draw_text("Capture os Itens", pygame.font.SysFont("Arial", 48), WHITE, WIDTH // 4, HEIGHT // 4)
     draw_text("Pressione P para Jogar", font, WHITE, WIDTH // 4, HEIGHT // 2)
     pygame.display.flip()
@@ -118,6 +121,9 @@ while running:
         show_pause_menu()
         continue
 
+    # Desenha a imagem de fundo do jogo
+    screen.blit(game_background, (0, 0))
+
     # Controles do jogador
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and player_x > 0:
@@ -139,9 +145,6 @@ while running:
         item_y = 0
         item_x = random.randint(0, WIDTH - item_size)
         
-    # Limpar a tela
-    screen.fill(BLACK)
-
     # Desenhar o jogador e o item
     pygame.draw.rect(screen, BLUE, (player_x, player_y, player_size, player_size))
     pygame.draw.rect(screen, RED, (item_x, item_y, item_size, item_size))
