@@ -26,9 +26,10 @@ item_x = random.randint(0, WIDTH - item_size)
 item_y = 0
 item_speed = 5
 
-# Pontuação
+# Pontuação e vidas
 score = 0
 max_score = 20  # Pontuação máxima antes de voltar ao menu
+lives = 3       # Pontos de vida
 font = pygame.font.SysFont("Arial", 24)
 
 # Estado do jogo
@@ -88,6 +89,30 @@ def show_congratulations():
             elif event.type == pygame.KEYDOWN:
                 waiting = False  # Sai do loop quando uma tecla é pressionada
 
+# Função para mostrar mensagem de fim de jogo
+def show_game_over():
+    screen.blit(game_background, (0, 0))
+    draw_text("Game Over", pygame.font.SysFont("Arial", 48), WHITE, WIDTH // 3, HEIGHT // 3)
+    draw_text("Pressione R para Reiniciar ou ESC para Sair", font, WHITE, WIDTH // 6, HEIGHT // 2)
+    pygame.display.flip()
+    
+    # Espera até que o jogador reinicie ou saia do jogo
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:  # Reiniciar o jogo
+                    global score, lives, game_active
+                    score = 0
+                    lives = 3
+                    game_active = True
+                    waiting = False
+                elif event.key == pygame.K_ESCAPE:  # Sair do jogo
+                    pygame.quit()
+                    sys.exit()
 
 # Loop principal do jogo
 running = True
@@ -109,6 +134,7 @@ while running:
                 paused = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 score = 0
+                lives = 3
                 player_x = WIDTH // 2 - player_size // 2
                 player_y = HEIGHT - 2 * player_size
                 item_x = random.randint(0, WIDTH - item_size)
@@ -120,6 +146,7 @@ while running:
                 paused = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                 score = 0
+                lives = 3
                 player_x = WIDTH // 2 - player_size // 2
                 player_y = HEIGHT - 2 * player_size
                 item_x = random.randint(0, WIDTH - item_size)
@@ -149,6 +176,12 @@ while running:
         score = 0           # Reiniciar a pontuação
         continue
 
+    # Verificar se as vidas acabaram
+    if lives <= 0:
+        show_game_over()
+        game_active = False
+        continue
+
     # Desenha a imagem de fundo do jogo
     screen.blit(game_background, (0, 0))
 
@@ -164,6 +197,7 @@ while running:
     if item_y > HEIGHT:
         item_y = 0
         item_x = random.randint(0, WIDTH - item_size)
+        lives -= 1  # Perde uma vida se o jogador não capturar o item
 
     # Detectar colisão
     if (player_x < item_x < player_x + player_size or
@@ -177,8 +211,8 @@ while running:
     screen.blit(player_image, (player_x, player_y))
     screen.blit(item_image, (item_x, item_y))
 
-    # Exibir pontuação e instrução para pausar
-    score_text = font.render(f"Pontos: {score}  |  Pressione ESC para Pausar", True, WHITE)
+    # Exibir pontuação, vidas e instrução para pausar
+    score_text = font.render(f"Pontos: {score}  |  Vidas: {lives}  |  Pressione ESC para Pausar", True, WHITE)
     screen.blit(score_text, (10, 10))
 
     # Atualizar a tela
