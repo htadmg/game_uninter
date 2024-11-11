@@ -36,6 +36,10 @@ font = pygame.font.SysFont("Arial", 24)
 game_active = False
 paused = False
 
+# Carregar imagem de fundo para a tela inicial
+background_image = pygame.image.load("assets/1.png")
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))  # Redimensiona a imagem para caber na tela
+
 # Função para desenhar texto na tela
 def draw_text(text, font, color, x, y):
     text_obj = font.render(text, True, color)
@@ -43,7 +47,7 @@ def draw_text(text, font, color, x, y):
 
 # Função para mostrar a tela de início
 def show_menu():
-    screen.fill(BLACK)
+    screen.blit(background_image, (0, 0))  # Desenha a imagem de fundo
     draw_text("Capture os Itens", pygame.font.SysFont("Arial", 48), WHITE, WIDTH // 4, HEIGHT // 4)
     draw_text("Pressione P para Jogar", font, WHITE, WIDTH // 4, HEIGHT // 2)
     pygame.display.flip()
