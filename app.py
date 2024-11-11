@@ -51,6 +51,10 @@ player_image = pygame.transform.scale(player_image, (player_size, player_size))
 item_image = pygame.image.load("assets/Rock2.png")
 item_image = pygame.transform.scale(item_image, (item_size, item_size))
 
+# Carregar imagem de vida
+heart_image = pygame.image.load("assets/Rock2.png")
+heart_image = pygame.transform.scale(heart_image, (item_size, item_size))  # Ajuste o tamanho se necessário
+
 # Função para desenhar texto na tela
 def draw_text(text, font, color, x, y):
     text_obj = font.render(text, True, color)
@@ -113,6 +117,11 @@ def show_game_over():
                 elif event.key == pygame.K_ESCAPE:  # Sair do jogo
                     pygame.quit()
                     sys.exit()
+
+# Função para desenhar as vidas na tela
+def draw_lives(lives):
+    for i in range(lives):
+        screen.blit(heart_image, (10 + i * 35, 50))  # Ajuste a posição e o espaçamento entre as imagens
 
 # Loop principal do jogo
 running = True
@@ -212,12 +221,14 @@ while running:
     screen.blit(item_image, (item_x, item_y))
 
     # Exibir pontuação, vidas e instrução para pausar
-    score_text = font.render(f"Pontos: {score}  |  Vidas: {lives}  |  Pressione ESC para Pausar", True, WHITE)
+    score_text = font.render(f"Pontos: {score}  |  Pressione ESC para Pausar", True, WHITE)
     screen.blit(score_text, (10, 10))
+    
+    # Desenhar as vidas como imagens de coração
+    draw_lives(lives)
 
     # Atualizar a tela
     pygame.display.flip()
 
-# Encerrar pygame
+# Sair do pygame
 pygame.quit()
-sys.exit()
