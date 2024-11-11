@@ -37,6 +37,7 @@ font = pygame.font.SysFont("Arial", 24)
 game_active = False
 paused = False
 
+
 def resource_path(relative_path):
     """Obtém o caminho correto para o arquivo de recurso, mesmo após a compilação com PyInstaller."""
     try:
@@ -45,9 +46,10 @@ def resource_path(relative_path):
     except Exception:
         # Caso o código esteja em execução como script Python normal
         base_path = os.path.abspath(".")
-    
+
     # Retorna o caminho completo do arquivo de recurso
     return os.path.join(base_path, relative_path)
+
 
 # Usar a função resource_path para carregar os arquivos
 menu_background = pygame.image.load(resource_path("assets/1.png"))
@@ -65,10 +67,12 @@ item_image = pygame.transform.scale(item_image, (item_size, item_size))
 heart_image = pygame.image.load(resource_path("assets/Rock2.png"))
 heart_image = pygame.transform.scale(heart_image, (30, 30))
 
+
 # Função para desenhar texto na tela
 def draw_text(text, font, color, x, y):
     text_obj = font.render(text, True, color)
     screen.blit(text_obj, (x, y))
+
 
 # Função para mostrar a tela de início
 def show_menu():
@@ -76,6 +80,7 @@ def show_menu():
     draw_text("Capture os Itens", pygame.font.SysFont("Arial", 48), WHITE, WIDTH // 4, HEIGHT // 4)
     draw_text("Pressione P para Jogar", font, WHITE, WIDTH // 4, HEIGHT // 2)
     pygame.display.flip()
+
 
 # Função para mostrar a tela de pausa
 def show_pause_menu():
@@ -86,13 +91,14 @@ def show_pause_menu():
     draw_text("Pressione ESC para Sair", font, WHITE, WIDTH // 4, HEIGHT // 2 + 60)
     pygame.display.flip()
 
+
 # Função para mostrar mensagem de parabéns
 def show_congratulations():
     screen.blit(game_background, (0, 0))
     draw_text("Parabéns! Você atingiu 20 pontos!", pygame.font.SysFont("Arial", 32), WHITE, WIDTH // 6, HEIGHT // 3)
     draw_text("Pressione qualquer tecla para voltar ao menu", font, WHITE, WIDTH // 6, HEIGHT // 2)
     pygame.display.flip()
-    
+
     # Espera até que uma tecla seja pressionada
     waiting = True
     while waiting:
@@ -103,13 +109,14 @@ def show_congratulations():
             elif event.type == pygame.KEYDOWN:
                 waiting = False  # Sai do loop quando uma tecla é pressionada
 
+
 # Função para mostrar mensagem de fim de jogo
 def show_game_over():
     screen.blit(game_background, (0, 0))
     draw_text("Game Over", pygame.font.SysFont("Arial", 48), WHITE, WIDTH // 3, HEIGHT // 3)
     draw_text("Pressione R para Reiniciar ou ESC para Sair", font, WHITE, WIDTH // 6, HEIGHT // 2)
     pygame.display.flip()
-    
+
     # Espera até que o jogador reinicie ou saia do jogo
     waiting = True
     while waiting:
@@ -128,19 +135,22 @@ def show_game_over():
                     pygame.quit()
                     sys.exit()
 
+
 # Função para desenhar as vidas na tela
 def draw_lives(lives):
     for i in range(lives):
         screen.blit(heart_image, (10 + i * 35, 50))  # Ajuste a posição e o espaçamento entre as imagens
 
+
 # Loop principal do jogo
 running = True
 clock = pygame.time.Clock()
 
+
 while running:
     # Manter a velocidade do jogo constante
     clock.tick(30)
-    
+
     # Eventos do jogo
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -225,7 +235,7 @@ while running:
         score += 1
         item_y = 0
         item_x = random.randint(0, WIDTH - item_size)
-        
+
     # Desenhar o jogador e o item
     screen.blit(player_image, (player_x, player_y))
     screen.blit(item_image, (item_x, item_y))
@@ -233,7 +243,7 @@ while running:
     # Exibir pontuação, vidas e instrução para pausar
     score_text = font.render(f"Pontos: {score}  |  Pressione ESC para Pausar", True, WHITE)
     screen.blit(score_text, (10, 10))
-    
+
     # Desenhar as vidas como imagens de coração
     draw_lives(lives)
 
