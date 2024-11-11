@@ -1,6 +1,7 @@
 import pygame
 import random
 import sys
+import os
 
 # Inicializar pygame
 pygame.init()
@@ -36,24 +37,33 @@ font = pygame.font.SysFont("Arial", 24)
 game_active = False
 paused = False
 
-# Carregar imagens de fundo
-menu_background = pygame.image.load("assets/1.png")
+def resource_path(relative_path):
+    """Obtém o caminho correto para o arquivo de recurso, mesmo após a compilação com PyInstaller."""
+    try:
+        # PyInstaller cria um diretório temporário onde os recursos são extraídos
+        base_path = sys._MEIPASS
+    except Exception:
+        # Caso o código esteja em execução como script Python normal
+        base_path = os.path.abspath(".")
+    
+    # Retorna o caminho completo do arquivo de recurso
+    return os.path.join(base_path, relative_path)
+
+# Usar a função resource_path para carregar os arquivos
+menu_background = pygame.image.load(resource_path("assets/1.png"))
 menu_background = pygame.transform.scale(menu_background, (WIDTH, HEIGHT))
 
-game_background = pygame.image.load("assets/2.png")
+game_background = pygame.image.load(resource_path("assets/2.png"))
 game_background = pygame.transform.scale(game_background, (WIDTH, HEIGHT))
 
-# Carregar imagem do jogador
-player_image = pygame.image.load("assets/Pink_Monster.png")
+player_image = pygame.image.load(resource_path("assets/Pink_Monster.png"))
 player_image = pygame.transform.scale(player_image, (player_size, player_size))
 
-# Carregar imagem do item
-item_image = pygame.image.load("assets/Rock2.png")
+item_image = pygame.image.load(resource_path("assets/Rock2.png"))
 item_image = pygame.transform.scale(item_image, (item_size, item_size))
 
-# Carregar imagem de vida
-heart_image = pygame.image.load("assets/Rock2.png")
-heart_image = pygame.transform.scale(heart_image, (item_size, item_size))  # Ajuste o tamanho se necessário
+heart_image = pygame.image.load(resource_path("assets/Rock2.png"))
+heart_image = pygame.transform.scale(heart_image, (30, 30))
 
 # Função para desenhar texto na tela
 def draw_text(text, font, color, x, y):
