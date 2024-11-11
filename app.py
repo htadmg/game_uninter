@@ -13,8 +13,6 @@ pygame.display.set_caption("Capture os Itens")
 # Cores
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
 
 # Variáveis do jogador
 player_size = 50
@@ -38,10 +36,18 @@ paused = False
 
 # Carregar imagens de fundo
 menu_background = pygame.image.load("assets/1.png")
-menu_background = pygame.transform.scale(menu_background, (WIDTH, HEIGHT))  # Redimensiona a imagem para caber na tela
+menu_background = pygame.transform.scale(menu_background, (WIDTH, HEIGHT))
 
 game_background = pygame.image.load("assets/2.png")
-game_background = pygame.transform.scale(game_background, (WIDTH, HEIGHT))  # Redimensiona a imagem para caber na tela
+game_background = pygame.transform.scale(game_background, (WIDTH, HEIGHT))
+
+# Carregar imagem do jogador
+player_image = pygame.image.load("assets/Pink_Monster.png")
+player_image = pygame.transform.scale(player_image, (player_size, player_size))
+
+# Carregar imagem do item
+item_image = pygame.image.load("assets/Rock2.png")
+item_image = pygame.transform.scale(item_image, (item_size, item_size))
 
 # Função para desenhar texto na tela
 def draw_text(text, font, color, x, y):
@@ -50,7 +56,7 @@ def draw_text(text, font, color, x, y):
 
 # Função para mostrar a tela de início
 def show_menu():
-    screen.blit(menu_background, (0, 0))  # Desenha a imagem de fundo
+    screen.blit(menu_background, (0, 0))
     draw_text("Capture os Itens", pygame.font.SysFont("Arial", 48), WHITE, WIDTH // 4, HEIGHT // 4)
     draw_text("Pressione P para Jogar", font, WHITE, WIDTH // 4, HEIGHT // 2)
     pygame.display.flip()
@@ -83,7 +89,6 @@ while running:
                 game_active = True
                 paused = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                # Reiniciar o jogo
                 score = 0
                 player_x = WIDTH // 2 - player_size // 2
                 player_y = HEIGHT - 2 * player_size
@@ -93,10 +98,8 @@ while running:
                 paused = False
         elif game_active and paused:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_c:
-                # Continuar o jogo
                 paused = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                # Reiniciar o jogo enquanto pausado
                 score = 0
                 player_x = WIDTH // 2 - player_size // 2
                 player_y = HEIGHT - 2 * player_size
@@ -104,7 +107,6 @@ while running:
                 item_y = 0
                 paused = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                # Sair do jogo a partir da tela de pausa
                 running = False
 
         # Pausar o jogo
@@ -146,8 +148,8 @@ while running:
         item_x = random.randint(0, WIDTH - item_size)
         
     # Desenhar o jogador e o item
-    pygame.draw.rect(screen, BLUE, (player_x, player_y, player_size, player_size))
-    pygame.draw.rect(screen, RED, (item_x, item_y, item_size, item_size))
+    screen.blit(player_image, (player_x, player_y))
+    screen.blit(item_image, (item_x, item_y))
 
     # Exibir pontuação e instrução para pausar
     score_text = font.render(f"Pontos: {score}  |  Pressione ESC para Pausar", True, WHITE)
