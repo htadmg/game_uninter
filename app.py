@@ -28,6 +28,7 @@ item_speed = 5
 
 # Pontuação
 score = 0
+max_score = 20  # Pontuação máxima antes de voltar ao menu
 font = pygame.font.SysFont("Arial", 24)
 
 # Estado do jogo
@@ -63,12 +64,30 @@ def show_menu():
 
 # Função para mostrar a tela de pausa
 def show_pause_menu():
-    screen.fill(BLACK)
+    screen.blit(menu_background, (0, 0))
     draw_text("Pausado", pygame.font.SysFont("Arial", 48), WHITE, WIDTH // 3, HEIGHT // 4)
     draw_text("Pressione C para Continuar", font, WHITE, WIDTH // 4, HEIGHT // 2)
     draw_text("Pressione R para Reiniciar", font, WHITE, WIDTH // 4, HEIGHT // 2 + 30)
     draw_text("Pressione ESC para Sair", font, WHITE, WIDTH // 4, HEIGHT // 2 + 60)
     pygame.display.flip()
+
+# Função para mostrar mensagem de parabéns
+def show_congratulations():
+    screen.blit(game_background, (0, 0))
+    draw_text("Parabéns! Você atingiu 20 pontos!", pygame.font.SysFont("Arial", 32), WHITE, WIDTH // 6, HEIGHT // 3)
+    draw_text("Pressione qualquer tecla para voltar ao menu", font, WHITE, WIDTH // 6, HEIGHT // 2)
+    pygame.display.flip()
+    
+    # Espera até que uma tecla seja pressionada
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                waiting = False  # Sai do loop quando uma tecla é pressionada
+
 
 # Loop principal do jogo
 running = True
@@ -121,6 +140,13 @@ while running:
     # Tela de pausa
     if paused:
         show_pause_menu()
+        continue
+
+    # Verificar se atingiu a pontuação máxima
+    if score >= max_score:
+        show_congratulations()
+        game_active = False  # Voltar ao menu principal
+        score = 0           # Reiniciar a pontuação
         continue
 
     # Desenha a imagem de fundo do jogo
