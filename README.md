@@ -1,4 +1,6 @@
 # Game de Trabalho de Linguagem de Programação Aplicada
+![image](https://github.com/user-attachments/assets/3a310aae-5b4e-4736-affb-591cd0545f0b)
+
 ## Descrição do Projeto
 Um jogo DEMO de captura de itens desenvolvido com Python e Pygame. O objetivo do jogo é capturar itens que caem da parte superior da tela para ganhar pontos, evitando que eles cheguem ao fim da tela, o que faz o jogador perder vidas. O jogo oferece uma interface com uma tela de menu, opção de pausa e controle de pontuação.
 ## Funcionalidades do Jogo
