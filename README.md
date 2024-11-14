@@ -46,7 +46,6 @@ pip install -r requirements.txt
 ```
 ## Como Jogar
 **Objetivo:** Capture o maior número de itens possível para aumentar sua pontuação. Atingir 20 pontos é o máximo necessário para vencer.
-**Controles:**
 - Seta Esquerda: Move o personagem para a esquerda.
 - Seta Direita: Move o personagem para a direita.
 - P: Inicia o jogo no menu principal.
